@@ -23,16 +23,21 @@ class DatabaseManager:
             return
 
         try:
+            import certifi
             # Connect using the client; set a short timeout so application startup is not blocked
             self.client = AsyncIOMotorClient(
                 settings.MONGODB_URI,
                 serverSelectionTimeoutMS=2000,
-                uuidRepresentation="standard"
+                uuidRepresentation="standard",
+                tlsCAFile=certifi.where()
             )
             self.db = self.client[settings.MONGODB_DATABASE]
             # Perform a test ping to verify connectivity
             await self.client.admin.command("ping")
             logger.info("Successfully established connection to MongoDB.")
+            # Trigger idempotent database index creation
+            from backend.database.indexes import create_indexes
+            await create_indexes()
         except (ConnectionFailure, ServerSelectionTimeoutError) as e:
             logger.error(f"Could not connect to MongoDB on startup: {e}")
             # Do not raise the exception; let the app run with health check reporting unavailable

@@ -16,6 +16,10 @@ logging.basicConfig(
     level=logging.INFO if not settings.DEBUG else logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
+# Suppress noisy MongoDB/PyMongo driver debug logs during local operation
+logging.getLogger("pymongo").setLevel(logging.WARNING)
+logging.getLogger("motor").setLevel(logging.WARNING)
+
 logger = logging.getLogger(__name__)
 
 @asynccontextmanager
@@ -24,6 +28,9 @@ async def lifespan(app: FastAPI):
     Manages startup and shutdown lifecycles of the application.
     """
     logger.info("Starting up Nexora AI Support Hub Backend...")
+    # Verify JWT secret configuration safety
+    from backend.core.security import check_jwt_secret_safety
+    check_jwt_secret_safety()
     # Initialize MongoDB connection
     await db_manager.connect()
     yield

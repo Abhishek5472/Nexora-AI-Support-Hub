@@ -12,10 +12,12 @@ export interface ApiError {
 
 /**
  * Centralized Axios instance configured for communications with the FastAPI backend.
+ * withCredentials: true ensures HTTP-only cookies (refresh tokens) are sent automatically.
  */
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 5000,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },

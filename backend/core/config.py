@@ -1,4 +1,11 @@
+import os
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Get paths relative to this config file
+CURRENT_DIR = Path(__file__).parent.resolve()
+BACKEND_ROOT = CURRENT_DIR.parent.resolve()
+WORKSPACE_ROOT = BACKEND_ROOT.parent.resolve()
 
 class Settings(BaseSettings):
     """
@@ -18,9 +25,21 @@ class Settings(BaseSettings):
     MONGODB_URI: str = ""
     MONGODB_DATABASE: str = "nexora_support_db"
 
-    # Configuration for Pydantic settings loading
+    # JWT & Cookie Security configurations
+    JWT_SECRET_KEY: str = ""
+    JWT_ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+    REFRESH_COOKIE_NAME: str = "refresh_token"
+    COOKIE_SECURE: bool = False
+    COOKIE_SAMESITE: str = "lax"
+
+    # Configuration for Pydantic settings loading. Workspace root overrides backend-specific defaults.
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(
+            os.path.join(BACKEND_ROOT, ".env"),
+            os.path.join(WORKSPACE_ROOT, ".env"),
+        ),
         env_file_encoding="utf-8",
         extra="ignore"
     )

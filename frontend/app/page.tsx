@@ -1,10 +1,16 @@
+"use client";
+
 import React from "react";
+import Link from "next/link";
+import { useAuth } from "../components/auth/AuthProvider";
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { Card } from "../components/ui/Card";
 import { BackendHealthIndicator } from "../components/common/BackendHealthIndicator";
 
 export default function Home() {
+  const { user, loading } = useAuth();
+
   return (
     <div className="flex min-h-screen flex-col bg-neutral-50 text-neutral-900 transition-colors duration-300 dark:bg-neutral-950 dark:text-neutral-50">
       <Header />
@@ -25,25 +31,44 @@ export default function Home() {
           </div>
 
           <div className="space-y-6">
-            {/* Frontend Status Card */}
+            {/* Phase 2 Access Card */}
             <Card>
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-100">
-                  Frontend Foundation
-                </h2>
-                <div className="flex items-center gap-1.5">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-450 opacity-75"></span>
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
-                  </span>
-                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
-                    Operational
-                  </span>
-                </div>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-                The Next.js frontend foundation is operational. Built with React, TypeScript, Tailwind CSS, App Router, and ESLint, it provides a premium foundation with a centralized Axios API client ready for subsequent service layers.
+              <h2 className="text-xl font-bold mb-3 text-neutral-800 dark:text-neutral-100">
+                Phase 2 Portal Portal Access
+              </h2>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+                Welcome to the customer support system. Phase 2 introduces MongoDB-backed secure session authentication, refresh token rotation, user profile updates, and role-based access control (RBAC).
               </p>
+
+              {loading ? (
+                <div className="flex items-center justify-center py-4">
+                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"></div>
+                </div>
+              ) : user ? (
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="/dashboard"
+                    className="flex-1 text-center rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 py-3 text-sm font-bold text-white shadow-md shadow-indigo-500/20 hover:from-indigo-600 hover:to-violet-750 transition-all"
+                  >
+                    Go to Dashboard
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="/login"
+                    className="flex-1 text-center rounded-xl bg-indigo-650 hover:bg-indigo-700 py-3 text-sm font-bold text-white shadow-md transition-all"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="flex-1 text-center rounded-xl border border-neutral-300 bg-white hover:bg-neutral-50 py-3 text-sm font-bold text-neutral-700 transition-all dark:border-neutral-800 dark:bg-neutral-900/40 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                  >
+                    Register
+                  </Link>
+                </div>
+              )}
             </Card>
 
             {/* Health Check Card */}
