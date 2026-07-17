@@ -31,3 +31,11 @@ htmlcov/
 backend/vectorstore/*.faiss
 backend/vectorstore/*.index
 backend/vectorstore/*.pkl
+
+# Generated vector store artifacts in root vectorstore/ folder
+vectorstore/index.faiss
+vectorstore/metadata.json
+vectorstore/manifest.json
+vectorstore/*.tmp
+vectorstore/*.json.tmp
+vectorstore/*.faiss.tmp

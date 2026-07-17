@@ -34,6 +34,17 @@ class Settings(BaseSettings):
     COOKIE_SECURE: bool = False
     COOKIE_SAMESITE: str = "lax"
 
+    # RAG / Knowledge Base configurations
+    KNOWLEDGE_BASE_PATH: str = str(WORKSPACE_ROOT / "knowledge_base")
+    VECTOR_STORE_PATH: str = str(WORKSPACE_ROOT / "vectorstore")
+    EMBEDDING_MODEL_NAME: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    EMBEDDING_BATCH_SIZE: int = 32
+    CHUNK_SIZE: int = 500
+    CHUNK_OVERLAP: int = 50
+    RETRIEVAL_TOP_K: int = 5
+    RETRIEVAL_SCORE_THRESHOLD: float = 0.0
+    MAX_KNOWLEDGE_FILE_SIZE_MB: int = 10
+
     # Configuration for Pydantic settings loading. Workspace root overrides backend-specific defaults.
     model_config = SettingsConfigDict(
         env_file=(
