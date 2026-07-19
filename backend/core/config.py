@@ -45,6 +45,12 @@ class Settings(BaseSettings):
     RETRIEVAL_SCORE_THRESHOLD: float = 0.0
     MAX_KNOWLEDGE_FILE_SIZE_MB: int = 10
 
+    # Gemini API configurations
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+    INITIAL_TOKEN_TIMEOUT: float = 15.0
+    STREAM_TOKEN_TIMEOUT: float = 10.0
+
     # Configuration for Pydantic settings loading. Workspace root overrides backend-specific defaults.
     model_config = SettingsConfigDict(
         env_file=(

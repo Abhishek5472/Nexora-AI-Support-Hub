@@ -28,7 +28,7 @@ const authHeaders = (accessToken: string) => ({
  * Registers a new user. Default role is customer.
  */
 export async function registerUser(payload: Record<string, string>): Promise<UserResponse> {
-  const response = await apiClient.post<UserResponse>("/api/v1/auth/register", payload);
+  const response = await apiClient.post<UserResponse>("/auth/register", payload);
   return response.data;
 }
 
@@ -36,7 +36,7 @@ export async function registerUser(payload: Record<string, string>): Promise<Use
  * Logins in user, returns access token, and sets the HTTP-only refresh cookie.
  */
 export async function loginUser(payload: Record<string, string>): Promise<TokenResponse> {
-  const response = await apiClient.post<TokenResponse>("/api/v1/auth/login", payload);
+  const response = await apiClient.post<TokenResponse>("/auth/login", payload);
   return response.data;
 }
 
@@ -44,7 +44,7 @@ export async function loginUser(payload: Record<string, string>): Promise<TokenR
  * Silent token refresh using the HTTP-only cookie. Rotates session and returns new access token.
  */
 export async function refreshAccessToken(): Promise<TokenResponse> {
-  const response = await apiClient.post<TokenResponse>("/api/v1/auth/refresh");
+  const response = await apiClient.post<TokenResponse>("/auth/refresh");
   return response.data;
 }
 
@@ -53,7 +53,7 @@ export async function refreshAccessToken(): Promise<TokenResponse> {
  */
 export async function logoutUser(accessToken: string): Promise<{ message: string }> {
   const response = await apiClient.post<{ message: string }>(
-    "/api/v1/auth/logout",
+    "/auth/logout",
     {},
     authHeaders(accessToken)
   );
@@ -65,7 +65,7 @@ export async function logoutUser(accessToken: string): Promise<{ message: string
  */
 export async function logoutAllSessions(accessToken: string): Promise<{ message: string }> {
   const response = await apiClient.post<{ message: string }>(
-    "/api/v1/auth/logout-all",
+    "/auth/logout-all",
     {},
     authHeaders(accessToken)
   );
@@ -77,7 +77,7 @@ export async function logoutAllSessions(accessToken: string): Promise<{ message:
  */
 export async function getProfile(accessToken: string): Promise<UserResponse> {
   const response = await apiClient.get<UserResponse>(
-    "/api/v1/auth/me",
+    "/auth/me",
     authHeaders(accessToken)
   );
   return response.data;
@@ -91,7 +91,7 @@ export async function updateProfile(
   payload: { full_name?: string; preferred_language?: string }
 ): Promise<UserResponse> {
   const response = await apiClient.patch<UserResponse>(
-    "/api/v1/users/me",
+    "/users/me",
     payload,
     authHeaders(accessToken)
   );
@@ -103,7 +103,7 @@ export async function updateProfile(
  */
 export async function verifyAdmin(accessToken: string): Promise<{ status: string; role: string }> {
   const response = await apiClient.get<{ status: string; role: string }>(
-    "/api/v1/admin/verify",
+    "/admin/verify",
     authHeaders(accessToken)
   );
   return response.data;

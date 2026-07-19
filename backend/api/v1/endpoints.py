@@ -6,6 +6,7 @@ from backend.api.v1.auth import router as auth_router
 from backend.api.v1.users import router as users_router
 from backend.api.v1.admin import router as admin_router
 from backend.api.v1.knowledge import router as knowledge_router
+from backend.api.v1.chat import router as chat_router
 
 router = APIRouter()
 
@@ -14,6 +15,7 @@ router.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 router.include_router(users_router, prefix="/users", tags=["User Profile"])
 router.include_router(admin_router, prefix="/admin", tags=["Admin/RBAC"])
 router.include_router(knowledge_router, prefix="/knowledge", tags=["Knowledge Base"])
+router.include_router(chat_router, prefix="/chat", tags=["AI Support Chat"])
 
 @router.get("/health", response_model=HealthResponse, tags=["Health"])
 async def get_general_health():

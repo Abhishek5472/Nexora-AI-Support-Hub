@@ -10,7 +10,7 @@ import {
   updateProfile,
   UserResponse
 } from "../../services/auth";
-import { normalizeError } from "../../lib/api-client";
+import { normalizeError, setAccessTokenTracker, setTokenRefreshedCallback } from "../../lib/api-client";
 
 interface AuthContextType {
   user: UserResponse | null;
@@ -30,6 +30,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Sync state token to interceptors tracking module
+  useEffect(() => {
+    setAccessTokenTracker(accessToken);
+  }, [accessToken]);
+
+  // Handle interceptor token refresh updates
+  useEffect(() => {
+    setTokenRefreshedCallback((token) => {
+      setAccessToken(token);
+      if (!token) {
+        setUser(null);
+      }
+    });
+    return () => {
+      setTokenRefreshedCallback(() => {});
+    };
+  }, []);
 
   const fetchProfile = async (token: string) => {
     try {

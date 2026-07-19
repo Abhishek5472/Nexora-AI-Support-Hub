@@ -47,7 +47,7 @@ function DashboardContent() {
                 Your customer profile session is secured using standard SHA-256 refresh-token rotation stored in MongoDB, and access tokens held securely in React memory. 
               </p>
               <div className="mt-4 rounded-xl border border-indigo-150 bg-indigo-50/40 p-4 text-xs text-indigo-700 dark:border-indigo-950/20 dark:bg-indigo-950/10 dark:text-indigo-400 leading-relaxed">
-                <span className="font-bold">Note:</span> The intelligent customer support workspace, multi-agent AI router, and Retrieval-Augmented Generation (RAG) pipelines will be integrated in subsequent implementation phases. Currently, chat and ticket logs are disabled.
+                <span className="font-bold">Note:</span> The intelligent customer support RAG chat pipeline is fully active. You can start a conversation grounded in our official company knowledge documents in English, Hindi, and Marathi.
               </div>
             </Card>
 
@@ -62,9 +62,24 @@ function DashboardContent() {
                 </div>
                 <Link
                   href="/profile"
-                  className="inline-flex items-center justify-center rounded-xl bg-neutral-200 hover:bg-neutral-350 dark:bg-neutral-900 dark:hover:bg-neutral-850 py-2.5 text-xs font-semibold tracking-wider transition-all"
+                  className="inline-flex items-center justify-center rounded-xl bg-neutral-200 hover:bg-neutral-355 dark:bg-neutral-900 dark:hover:bg-neutral-850 py-2.5 text-xs font-semibold tracking-wider transition-all"
                 >
                   View Profile
+                </Link>
+              </Card>
+
+              <Card className="flex flex-col justify-between border border-indigo-200 dark:border-indigo-950/30">
+                <div>
+                  <h3 className="font-bold text-base mb-1 text-indigo-650 dark:text-indigo-400">AI Support Chat</h3>
+                  <p className="text-xs text-neutral-500 mb-4">
+                    Ask support queries regarding setup, prices, warranty, shipping, and refunds.
+                  </p>
+                </div>
+                <Link
+                  href="/chat"
+                  className="inline-flex items-center justify-center rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 py-2.5 text-xs font-semibold tracking-wider transition-all"
+                >
+                  Start AI Chat
                 </Link>
               </Card>
 

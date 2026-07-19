@@ -15,7 +15,7 @@ export interface DatabaseHealthResponse {
  * Fetches the general backend health status.
  */
 export async function getGeneralHealth(): Promise<GeneralHealthResponse> {
-  const response = await apiClient.get<GeneralHealthResponse>("/api/v1/health");
+  const response = await apiClient.get<GeneralHealthResponse>("/health");
   return response.data;
 }
 
@@ -23,6 +23,6 @@ export async function getGeneralHealth(): Promise<GeneralHealthResponse> {
  * Fetches the backend's database connection status.
  */
 export async function getDatabaseHealth(): Promise<DatabaseHealthResponse> {
-  const response = await apiClient.get<DatabaseHealthResponse>("/api/v1/health/database");
+  const response = await apiClient.get<DatabaseHealthResponse>("/health/database");
   return response.data;
 }
