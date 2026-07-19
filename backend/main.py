@@ -1,3 +1,29 @@
+# ------------------------------------------------------------------------------
+# Package PATH Injection for Root/Subfolder Deployment Compatibility
+# ------------------------------------------------------------------------------
+import sys
+import os
+
+# Dynamic package binding to support both root-level and subfolder-level runs (Railway/Local)
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_parent_dir = os.path.dirname(_current_dir)
+
+if "backend" not in sys.modules:
+    if os.path.exists(os.path.join(_parent_dir, "backend")):
+        if _parent_dir not in sys.path:
+            sys.path.insert(0, _parent_dir)
+    else:
+        # On cloud platforms (e.g. Railway) where the build context is set to backend/
+        # and current_dir contains no 'backend' folder. We dynamically synthesize 'backend' package.
+        import types
+        _backend_pkg = types.ModuleType("backend")
+        _backend_pkg.__path__ = [_current_dir]
+        sys.modules["backend"] = _backend_pkg
+        
+        if _current_dir not in sys.path:
+            sys.path.insert(0, _current_dir)
+# ------------------------------------------------------------------------------
+
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
